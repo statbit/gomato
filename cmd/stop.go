@@ -15,10 +15,8 @@
 package cmd
 
 import (
-	"os"
-	"os/user"
-
 	"github.com/spf13/cobra"
+	"github.com/statbit/gomato/lib"
 )
 
 // stopCmd represents the stop command
@@ -32,12 +30,7 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		if user, err := user.Current(); err == nil {
-			fileName := user.HomeDir + "/.gomato_timer"
-			if file, err := os.Create(fileName); err == nil {
-				defer file.Close()
-			}
-		}
+		lib.Rm()
 	},
 }
 

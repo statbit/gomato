@@ -16,11 +16,9 @@ package cmd
 
 import (
 	"fmt"
-	"os"
-	"os/user"
-	"time"
 
 	"github.com/spf13/cobra"
+	"github.com/statbit/gomato/lib"
 )
 
 // statusCmd represents the status command
@@ -34,36 +32,8 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		if user, err := user.Current(); err == nil {
-			fileName := user.HomeDir + "/.gomato_timer"
-			if file, err := os.Open(fileName); err == nil {
-				var starttime int64 = 0
-				var mode = "P"
-				fmt.Fscanln(file, &mode)
-				fmt.Fscanln(file, &starttime)
-
-				now := time.Now()
-				diff := int(now.Unix() - starttime)
-				var min int = diff / 60
-				var sec int = diff - (min * 60)
-
-				maxTime := 25
-				desc := "Working"
-				if mode == "R" {
-					maxTime = 5
-					desc = "Resting"
-				}
-
-				if mode == "X" {
-					return
-				}
-
-				if min < maxTime {
-					fmt.Printf("%s %d:%02.f\n", desc, min, float32(sec))
-				} else {
-					fmt.Println("done", desc)
-				}
-			}
+		if message, err := lib.Get(); err == nil {
+			fmt.Println(message)
 		}
 	},
 }
