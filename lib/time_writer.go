@@ -52,7 +52,7 @@ func Get(remaining bool) (string, error) {
 
 			if min < maxTime {
 				if remaining {
-					desc = fmt.Sprintf("%s %d:%02.f", desc, (maxTime - min), (60 - float32(sec)))
+					desc = fmt.Sprintf("%s %d:%02.f", desc, (maxTime - min - 1), (60 - float32(sec)))
 				} else {
 					desc = fmt.Sprintf("%s %d:%02.f", desc, min, float32(sec))
 				}
