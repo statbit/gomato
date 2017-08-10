@@ -21,7 +21,7 @@ func Set(mode string) {
 	}
 }
 
-func Get() (string, error) {
+func Get(remaining bool) (string, error) {
 	if user, err := user.Current(); err == nil {
 		fileName := user.HomeDir + "/.gomato_timer"
 		if file, err := os.Open(fileName); err == nil {
@@ -51,7 +51,11 @@ func Get() (string, error) {
 			}
 
 			if min < maxTime {
-				desc = fmt.Sprintf("%s %d:%02.f", desc, min, float32(sec))
+				if remaining {
+					desc = fmt.Sprintf("%s %d:%02.f", desc, (maxTime - min), (60 - float32(sec)))
+				} else {
+					desc = fmt.Sprintf("%s %d:%02.f", desc, min, float32(sec))
+				}
 			} else if min >= maxTime {
 				desc = desc + " done"
 				Alert(desc, "Good Job!")
